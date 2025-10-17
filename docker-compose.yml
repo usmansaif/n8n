@@ -1,0 +1,41 @@
+services:
+  n8n:
+    build: .
+    container_name: n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      # Database configuration
+      DB_TYPE: mysqldb
+      DB_MYSQLDB_HOST: mysql-general
+      DB_MYSQLDB_PORT: 3306
+      DB_MYSQLDB_DATABASE: n8n
+      DB_MYSQLDB_USER: root
+      DB_MYSQLDB_PASSWORD: rootpass
+      GOOGLE_API_KEY: "AIzaSyA4SlarLMJ-eaM2bcu2Ee4ZAtfQ4naNuwE"
+      N8N_ENCRYPTION_KEY: "qTsmtK2jiUbA0cOMB6HOu2V+cvFHSap41s2GfHPQERw="
+      # Timezone
+      GENERIC_TIMEZONE: Asia/Karachi
+    depends_on:
+      - mysql
+    volumes:
+      - n8n_drive:/home/node/.n8n  # Named volume
+
+  mysql:
+    image: mysql:8
+    container_name: mysql-general
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: n8n
+      MYSQL_USER: n8n
+      MYSQL_PASSWORD: n8n
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql  # Named volume
+
+volumes:
+  n8n_drive:
+  mysql_data:

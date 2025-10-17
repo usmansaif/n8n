@@ -1,0 +1,9 @@
+# Sensitive
+.env
+mysql_data/
+n8n_data/
+
+# Docker stuff
+*.log
+*.pid
+*.bak
